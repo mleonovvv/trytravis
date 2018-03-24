@@ -4,10 +4,10 @@ mleonovvv Infra repository
 ### Homework-4. cloud-bastion
 
 Реквизиты для подключения к bastion
-
+```
 bastion_IP = 35.204.29.223
 someinternalhost_IP = 10.142.0.2
-
+```
 #### Подключение к someinternalhost в одну строку
 Настроить SSH Forwarding на вашей локальной машине:
 `ssh-add -L`
@@ -29,4 +29,4 @@ Host someinternalhost
   HostName someinternalhost_IP
   ProxyCommand ssh bastion_IP nc %h %p
 ```
-
+Выполнить команду: `ssh someinternalhost`
