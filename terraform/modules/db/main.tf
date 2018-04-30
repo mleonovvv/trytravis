@@ -14,6 +14,7 @@ resource "google_compute_instance" "db" {
     network       = "default"
     access_config = {}
   }
+
   connection {
     type        = "ssh"
     user        = "appuser"
@@ -23,9 +24,12 @@ resource "google_compute_instance" "db" {
 
   provisioner "file" {
     content     = "${data.template_file.mongod.rendered}"
-    destination = "/etc/mongo/"
+    destination = "/tmp/mongod.conf"
   }
 
+  provisioner "remote-exec" {
+    script = "${path.module}/files/deploy.sh"
+  }
 
   metadata {
     ssh-keys = "appuser:${file(var.public_key_path)}"
@@ -51,7 +55,4 @@ resource "google_compute_firewall" "firewall_mongo" {
 data "template_file" "mongod" {
   template = "${file("${path.module}/files/mongod.conf.tpl")}"
 
-  vars {
-    bind_address = "${var.bind_address}"
-  }
 }

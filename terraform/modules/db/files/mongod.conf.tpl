@@ -21,7 +21,7 @@ systemLog:
 # network interfaces
 net:
   port: 27017
-  bindIp: ${bind_address}
+  bindIp: 0.0.0.0
 
 
 #processManagement:

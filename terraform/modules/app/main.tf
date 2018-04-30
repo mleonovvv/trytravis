@@ -31,11 +31,18 @@ resource "google_compute_instance" "app" {
   }
 
   provisioner "file" {
-    source      = "../modules/app/files/puma.service"
+    content     = "${data.template_file.puma.rendered}"
     destination = "/tmp/puma.service"
   }
 
   provisioner "remote-exec" {
-    script = "../modules/app/files/deploy.sh"
+    script = "${path.module}/files/deploy.sh"
+  }
+}
+data "template_file" "puma" {
+  template = "${file("${path.module}/files/puma.service")}"
+
+  vars {
+    db_ip = "${var.db_ip}"
   }
 }

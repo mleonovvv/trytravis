@@ -2,6 +2,7 @@
 Description=my little puma
 
 [Service]
+Environment=DATABASE_URL=${db_ip}
 ExecStart=/usr/local/bin/puma --dir /home/appuser/reddit --pidfile /var/run/puma.pid
 Restart=on-failure
 
